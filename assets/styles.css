@@ -42,6 +42,10 @@ body {
         linear-gradient(180deg, #f7f1e7 0%, #efe5d7 100%);
 }
 
+body.letter-page {
+    overflow-x: clip;
+}
+
 a {
     color: var(--berry-deep);
 }
@@ -434,6 +438,11 @@ mark {
     margin: 0 auto;
 }
 
+.letter-body,
+.letter-body > * {
+    min-width: 0;
+}
+
 .letter-kicker {
     margin: 0 0 0.65rem;
     text-transform: uppercase;
@@ -473,6 +482,12 @@ mark {
 .letter-card li {
     color: var(--ink);
     line-height: 1.72;
+    overflow-wrap: anywhere;
+}
+
+.letter-card a,
+.letter-card code {
+    overflow-wrap: anywhere;
 }
 
 .letter-intro {
@@ -526,11 +541,13 @@ mark {
 
 .letter-sections {
     display: grid;
+    min-width: 0;
     gap: 1.1rem;
     margin-top: 1.4rem;
 }
 
 .letter-section {
+    min-width: 0;
     padding-top: 1.05rem;
     border-top: 1px solid var(--line);
 }
@@ -609,9 +626,14 @@ mark {
 }
 
 .letter-diagram {
+    display: block;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
     margin: 0.85rem 0 0;
     padding: 0.95rem 1rem;
     overflow-x: auto;
+    overflow-y: hidden;
     border-radius: var(--radius-md);
     border: 1px solid var(--line);
     background: rgba(32, 27, 23, 0.04);
@@ -675,8 +697,45 @@ mark {
     }
 
     .letter-card {
-        padding: 1.15rem 0.95rem 1.2rem;
+        padding: 1.1rem 0.88rem 1.15rem;
         border-radius: 24px;
+    }
+
+    .letter-page .topbar-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+        gap: 0.55rem 0.75rem;
+    }
+
+    .letter-page .brand-copy {
+        display: none;
+    }
+
+    .letter-body {
+        max-width: 100%;
+    }
+
+    .letter-card h1 {
+        font-size: clamp(1.8rem, 8vw, 2.25rem);
+    }
+
+    .letter-section h2 {
+        font-size: 1.28rem;
+    }
+
+    .letter-intro,
+    .letter-card p,
+    .letter-card li {
+        font-size: 0.98rem;
+        line-height: 1.66;
+    }
+
+    .summary-card,
+    .callout-card,
+    .qa-card,
+    .timeline-step {
+        padding: 0.9rem 0.9rem 0.95rem;
     }
 
     .letter-overview,
@@ -694,5 +753,31 @@ mark {
     .result-footer {
         align-items: start;
         flex-direction: column;
+    }
+
+    .letter-diagram {
+        font-size: 0.78rem;
+        line-height: 1.45;
+        padding: 0.8rem 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .letter-shell {
+        width: min(100%, calc(100% - 0.7rem));
+        padding: 0.7rem 0 1.5rem;
+    }
+
+    .letter-card {
+        padding: 1rem 0.8rem 1.05rem;
+    }
+
+    .letter-page .topbar-inner {
+        width: min(100%, calc(100% - 0.7rem));
+    }
+
+    .letter-diagram {
+        font-size: 0.72rem;
+        line-height: 1.4;
     }
 }
