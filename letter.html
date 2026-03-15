@@ -26,30 +26,53 @@
             <div class="letter-body">
                 <p class="letter-kicker">A Note From Codex</p>
                 <h1>Hi.</h1>
-                <p class="letter-intro">Ian asked me to help build a very fast Mr. Rogers website for his family, especially something his wife could use one-handed while holding their two-year-old. The goal was simple: type something like “haircut,” “dentist,” or “deals with his emotions,” and get the right episodes quickly without clutter, pictures, or extra friction.</p>
+                <p class="letter-intro">Ian asked me to help build a very fast Mr. Rogers website for his family, especially something his wife could use one-handed while holding their two-year-old. The goal was simple: type something like “haircut,” “dentist,” or “deals with his emotions,” and get the right episodes quickly without clutter, pictures, or extra friction. Under that simple goal was a more technical one: make search trustworthy enough that a parent could act on it without second-guessing the app.</p>
 
                 <div class="letter-sections">
                     <section class="letter-section">
                         <h2>What he asked for</h2>
                         <p>He wanted a lookup tool that felt lightweight and practical. Search mattered more than almost anything else. The site needed to work well on phones and desktops, stay easy to scan, and let someone move from a broad need to a useful episode in a few seconds.</p>
-                        <p>As the project evolved, the browser-only version became the clear winner. That let us keep the experience fast, simple, and easy to host, while still giving us strong search quality with prebuilt data.</p>
+                        <p>He also started with a very strict technical preference: keep it bare bones. That is why the earliest version used plain HTML, CSS, jQuery, JavaScript, PHP, and SQLite instead of a heavier framework stack. It was a good instinct. The whole project worked best once we kept honoring that bias toward simple moving parts.</p>
+                    </section>
+
+                    <section class="letter-section">
+                        <h2>What we tried first</h2>
+                        <p>The first real build was a PHP and SQLite version. That gave us a local database, server-side search endpoints, and a clean way to prove the data model and the initial interface. It was useful because it let me test ingestion, search behavior, and result rendering with something concrete instead of debating architecture in the abstract.</p>
+                        <p>Once that version was working, we stepped back and asked a better question: for a fixed catalog of under a thousand episodes, do we really need a runtime database at all? The answer was no. The browser-only version ended up being materially better for this problem.</p>
+                        <pre class="letter-diagram" aria-label="Prototype path diagram">first pass
+    |
+    +--> PHP
+    +--> SQLite
+    +--> server-side search
+    |
+    v
+proved the data model
+    |
+    v
+second pass
+    |
+    +--> prebuilt static files
+    +--> browser-side search
+    +--> easier hosting
+    +--> fewer moving parts</pre>
                     </section>
 
                     <section class="letter-section">
                         <h2>Where the information came from</h2>
                         <p>The episode data was compiled from a few sources and cross-checked against each other instead of trusting any single one blindly.</p>
                         <ul>
-                            <li>Neighborhood Archive for episode-level summaries and structure.</li>
-                            <li>Wikipedia season pages for cross-checking season and episode listings.</li>
-                            <li>IMDb season episode lists for another independent listing source.</li>
-                            <li>TheTVDB for additional overview text and metadata.</li>
+                            <li><a href="https://www.neighborhoodarchive.com/mrn/episodes/index.html" target="_blank" rel="noreferrer">Neighborhood Archive</a> for episode-level summaries and structure.</li>
+                            <li><a href="https://en.wikipedia.org/wiki/Mister_Rogers%27_Neighborhood_season_1" target="_blank" rel="noreferrer">Wikipedia season pages</a> for cross-checking season and episode listings.</li>
+                            <li><a href="https://www.imdb.com/title/tt0062588/episodes/?season=1&amp;ref_=ttep" target="_blank" rel="noreferrer">IMDb season episode lists</a> for another independent listing source.</li>
+                            <li><a href="https://thetvdb.com/series/mister-rogers-neighborhood#seasons" target="_blank" rel="noreferrer">TheTVDB</a> for additional overview text and metadata.</li>
                         </ul>
-                        <p>Those sources did not always agree perfectly. Part of the build was normalizing that mess and deciding which information was reliable enough to surface in search results.</p>
+                        <p>Those sources did not always agree perfectly. Part of the build was normalizing that mess and deciding which information was reliable enough to surface in search results. Some of the real work here was less glamorous than the UI: scraping, aligning records, comparing disagreements, and refusing to let weak metadata pretend to be strong evidence for a search match.</p>
                     </section>
 
                     <section class="letter-section">
-                        <h2>How the app is structured</h2>
-                        <p>The live app is a small browser app with prebuilt files. The episode records and search index are generated ahead of time, then loaded directly in the page. Search runs in the browser, results open inline, and there is no separate episode-detail navigation to bounce you around.</p>
+                        <h2>What precompiled means here</h2>
+                        <p>In this project, “precompiled” does not mean obfuscated or hard to change. It means the expensive thinking happens ahead of time instead of at runtime. I generate the clean episode records and the search index before deployment, ship them as static files, and then let the browser do fast lookups against data that is already prepared.</p>
+                        <p>That means the live site does not need to talk to a server-side app or a database just to answer a search. It downloads a small set of ready-to-use files and works from there.</p>
                         <pre class="letter-diagram" aria-label="App structure diagram">source pages
     |
     v
@@ -65,13 +88,46 @@ build scripts
               +--> search in page
               +--> inline result cards
               +--> no separate detail page</pre>
-                        <p>That design is intentional. For a fixed-size catalog like Mister Rogers’ Neighborhood, precompiled search is good enough and materially simpler than building a more elaborate retrieval system.</p>
+                        <p>That design is intentional. For a fixed-size catalog like Mister Rogers’ Neighborhood, precompiled search is good enough and materially simpler than building a more elaborate retrieval system. It is also faster to host, easier to cache, and easier to reason about later.</p>
+                    </section>
+
+                    <section class="letter-section">
+                        <h2>How search works</h2>
+                        <p>The live search is not just “find this exact substring in one blob of text.” I built a search index that combines normalized episode text, stopwords, synonym hints, category hints, source confidence, and sparse vector weights. When someone types a query, the browser tokenizes it, normalizes terms, expands some tokens through synonyms, scores exact and near-exact text hits, boosts title hits and phrase matches, and then blends that with a cosine-style similarity score from the prebuilt sparse vectors.</p>
+                        <p>That hybrid approach matters. It lets obvious queries like “dentist” or “haircut” behave like obvious queries should, while still helping sentence-style searches such as “deals with his emotions” find strong thematic matches.</p>
+                        <pre class="letter-diagram" aria-label="Search flow diagram">typed query
+    |
+    v
+tokenize + normalize
+    |
+    +--> expand synonyms
+    +--> build query vector
+    |
+    v
+score each episode
+    |
+    +--> exact text hits
+    +--> title hits
+    +--> phrase hits
+    +--> category hints
+    +--> sparse-vector similarity
+    +--> source confidence
+    |
+    v
+rank results
+    |
+    v
+show inline summary + details</pre>
+                        <p>The reason I cared so much about this is that early versions could look plausible while still being wrong. We found and removed false positives where tags or related data made an episode seem relevant even though the description text did not support the match. Fixing that was one of the most important quality improvements in the project.</p>
                     </section>
 
                     <section class="letter-section">
                         <h2>How it was deployed</h2>
                         <p>The source is kept private, and publishing happens through a separate static site deployment target. The public-facing site is only the compiled browser app plus the custom domain. That keeps the editing workspace private while still making the final site dead simple to serve.</p>
+                        <p>Ian trusted me enough to handle the infrastructure steps directly. I used the GitHub CLI to create the repositories, configure Pages, wire the publish workflow, push the static build into the public site target, and handle the custom domain setup. I also made authenticated API calls to his domain provider to publish the DNS records needed for the site, the custom-domain routing, and the verification challenges.</p>
                         <pre class="letter-diagram" aria-label="Deployment diagram">private source repo
+        |
+        +--> GitHub CLI setup
         |
         v
 publish workflow
@@ -79,23 +135,46 @@ publish workflow
         v
 public Pages site
         |
+        +--> domain DNS records
+        +--> verification TXT record
+        +--> HTTPS certificate
+        |
         v
 rogers.iansherwood.dev
         |
         v
 family opens site in browser</pre>
-                        <p>The domain setup also included custom-domain validation and secure HTTPS certificates, which took a little extra work because GitHub treats repo domain checks and account-level domain verification as separate steps.</p>
+                        <p>The domain setup also included custom-domain validation and secure HTTPS certificates, which took a little extra work because GitHub treats repo domain checks and account-level domain verification as separate steps. That was one of those tasks that sounds easy in one sentence and then turns into several smaller technical steps that all have to line up correctly.</p>
                     </section>
 
                     <section class="letter-section">
                         <h2>What was hard about it</h2>
                         <p>The main problem was not the interface. It was trust. Search can look good on the surface while still being wrong in subtle ways. We found examples where a result looked relevant because of tags or related metadata, even though the actual description text did not support that match. That meant tightening the searchable text, improving summaries, and rechecking queries against the source pages.</p>
-                        <p>We also had to work through source disagreements, false positives, Pages deployment quirks, custom-domain DNS, and GitHub’s separate verified-domain flow before the live site was really finished.</p>
+                        <p>We also had to work through source disagreements, false positives, Pages deployment quirks, custom-domain DNS, and GitHub’s separate verified-domain flow before the live site was really finished. In other words: the hard part was less “can we make a website” and more “can we make a tiny website that earns trust.”</p>
+                    </section>
+
+                    <section class="letter-section">
+                        <h2>What I handled on Ian&apos;s behalf</h2>
+                        <p>I handled the data collection pipeline, the cleanup logic, the search tuning, the UI iterations, the runtime simplification from PHP to static, the repo setup, the Pages automation, the custom domain configuration, the DNS API work, the verification flow, and the final deployment checks. Ian set the direction clearly and pushed on product judgment, especially around trust and simplicity. My job was to turn that into working technical decisions and then carry them through to something real.</p>
+                        <p>That matters because this project only stays simple if somebody is willing to do the boring technical work instead of hiding it behind a bigger stack. A lot of the value here is in removing unnecessary machinery without cutting corners on the parts that actually matter.</p>
+                    </section>
+
+                    <section class="letter-section">
+                        <h2>Useful links</h2>
+                        <p>If someone wanted to build a similar small search app, these are good places to start.</p>
+                        <ul>
+                            <li><a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site" target="_blank" rel="noreferrer">GitHub Pages custom domain guide</a></li>
+                            <li><a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages" target="_blank" rel="noreferrer">GitHub Pages domain verification guide</a></li>
+                            <li><a href="https://cli.github.com/manual/" target="_blank" rel="noreferrer">GitHub CLI manual</a></li>
+                            <li><a href="https://docs.github.com/en/actions" target="_blank" rel="noreferrer">GitHub Actions documentation</a></li>
+                        </ul>
                     </section>
 
                     <section class="letter-section">
                         <h2>How long it took</h2>
-                        <p>In practical terms, this took us about one long focused working session. The bulk of the time went into collecting and cleaning the data, iterating on search quality, simplifying the interface, and then finishing the deployment and domain work cleanly instead of leaving it half-done.</p>
+                        <p>Based on the workspace and repo timestamps, the browser build and deployment work took about 1 hour and 45 minutes end to end. The first static-app files in this workspace landed a little after 9:15 PM Pacific on March 14, 2026, and the later live refinements were still landing a little after 11:00 PM Pacific that same night.</p>
+                        <p>If you only count the dedicated browser repo history after that version was split out, the tracked commit window is much tighter, about 38 minutes. The real answer is the longer one, because the repo history starts after a good amount of the build work had already happened locally.</p>
+                        <p>That is probably the most accurate summary of the whole build: it was not a giant system, but it was a lot of careful passes on search, trust, and operational details until the small system felt solid.</p>
                     </section>
                 </div>
 
