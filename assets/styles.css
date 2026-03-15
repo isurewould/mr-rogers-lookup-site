@@ -209,8 +209,6 @@ input {
         0 0 0 4px rgba(182, 75, 62, 0.12);
 }
 
-.ghost-button,
-.starter-pill,
 .source-link {
     min-height: 3.2rem;
     border: 0;
@@ -220,43 +218,10 @@ input {
     transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
 }
 
-.ghost-button:hover,
-.starter-pill:hover,
 .source-link:hover,
-.result-toggle:hover {
+.result-toggle:hover,
+.search-clear-button:hover {
     transform: translateY(-1px);
-}
-
-.ghost-button {
-    background: rgba(255, 255, 255, 0.7);
-    color: var(--muted);
-    border: 1px solid rgba(32, 27, 23, 0.08);
-}
-
-#clearQueryButton {
-    background: rgba(182, 75, 62, 0.1);
-    color: var(--berry-deep);
-    border: 0;
-    box-shadow: none;
-}
-
-#clearQueryButton:hover {
-    background: rgba(182, 75, 62, 0.16);
-}
-
-.starter-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.65rem;
-    margin-top: 0.85rem;
-}
-
-.starter-pill {
-    min-height: 2.7rem;
-    padding: 0.55rem 0.9rem;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(239, 244, 243, 0.9));
-    color: var(--ink);
-    box-shadow: var(--shadow-md);
 }
 
 .results-shell {
@@ -392,6 +357,11 @@ mark {
 
 .result-action:hover {
     background: rgba(182, 75, 62, 0.16);
+}
+
+.search-clear-button {
+    min-height: 3.2rem;
+    padding: 0.75rem 1rem;
 }
 
 .detail-panel {

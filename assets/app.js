@@ -440,12 +440,6 @@
 
     $searchInput.on('input', queueSearch);
 
-    $('[data-sample-query]').on('click', function () {
-        state.query = $(this).data('sample-query');
-        $searchInput.val(state.query);
-        runSearch();
-    });
-
     $('#clearQueryButton').on('click', function () {
         state.query = '';
         state.openEpisodeCode = '';
