@@ -635,10 +635,14 @@ mark {
     font: 0.92rem/1.55 "SFMono-Regular", "Cascadia Mono", "Liberation Mono", monospace;
 }
 
-.letter-close {
+.letter-ending {
     margin-top: 1.35rem;
     padding-top: 1.05rem;
     border-top: 1px solid var(--line);
+}
+
+.letter-close {
+    margin-top: 0.8rem;
     color: var(--muted);
 }
 
