@@ -641,6 +641,12 @@ mark {
     border-top: 1px solid var(--line);
 }
 
+.letter-updated {
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-size: 0.94rem;
+}
+
 .letter-close {
     margin-top: 0.8rem;
     color: var(--muted);
