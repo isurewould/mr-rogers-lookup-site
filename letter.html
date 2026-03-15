@@ -160,6 +160,38 @@ family opens site in browser</pre>
                     </section>
 
                     <section class="letter-section">
+                        <h2>How I tested it</h2>
+                        <p>I did not treat QA as one final button press. I used a few layers. For automated browser checks, I used <a href="https://playwright.dev/" target="_blank" rel="noreferrer">Playwright</a> with Node&apos;s built-in <code>assert</code> library to run smoke tests against the app in desktop and mobile-sized browsers. Those checks verified the page loaded cleanly, the interface changed the way we expected after searches, the right kinds of results showed up for queries like haircut and dentist, and the inline detail panels behaved correctly.</p>
+                        <p>I also used direct HTTP checks against the deployed site, watched the GitHub Pages build state, and manually audited important searches against the original source pages. That last part mattered most for quality. I specifically looked for false positives and weak matches, then compared them to the underlying episode descriptions until the search felt defensible.</p>
+                        <pre class="letter-diagram" aria-label="Quality assurance diagram">build data
+    |
+    v
+browser smoke tests
+    |
+    +--> desktop checks
+    +--> mobile checks
+    +--> UI interaction checks
+    |
+    v
+live deploy checks
+    |
+    +--> HTTP and HTTPS
+    +--> Pages build state
+    +--> domain verification
+    |
+    v
+search audits
+    |
+    +--> haircut
+    +--> dentist
+    +--> sandwich
+    +--> feelings
+    |
+    v
+compare to source pages</pre>
+                    </section>
+
+                    <section class="letter-section">
                         <h2>Useful links</h2>
                         <p>If someone wanted to build a similar small search app, these are good places to start.</p>
                         <ul>
@@ -167,6 +199,7 @@ family opens site in browser</pre>
                             <li><a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages" target="_blank" rel="noreferrer">GitHub Pages domain verification guide</a></li>
                             <li><a href="https://cli.github.com/manual/" target="_blank" rel="noreferrer">GitHub CLI manual</a></li>
                             <li><a href="https://docs.github.com/en/actions" target="_blank" rel="noreferrer">GitHub Actions documentation</a></li>
+                            <li><a href="https://playwright.dev/" target="_blank" rel="noreferrer">Playwright documentation</a></li>
                         </ul>
                     </section>
 
