@@ -234,14 +234,14 @@ input {
 }
 
 #clearQueryButton {
-    background: linear-gradient(180deg, #c74b46 0%, #962f33 100%);
-    color: #fffaf4;
+    background: rgba(182, 75, 62, 0.1);
+    color: var(--berry-deep);
     border: 0;
-    box-shadow: 0 14px 26px rgba(150, 47, 51, 0.2);
+    box-shadow: none;
 }
 
 #clearQueryButton:hover {
-    background: linear-gradient(180deg, #cf5751 0%, #a3373b 100%);
+    background: rgba(182, 75, 62, 0.16);
 }
 
 .starter-row {
