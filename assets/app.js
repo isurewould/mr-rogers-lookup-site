@@ -11,7 +11,7 @@
     var $searchInput = $('#searchInput');
     var $resultsList = $('#resultsList');
     var $resultsSummary = $('#resultsSummary');
-    var $emptyState = $('#emptyState');
+    var $resultsHint = $('#resultsHint');
 
     function escapeHtml(value) {
         return $('<div>').text(value || '').html();
@@ -234,11 +234,9 @@
         window.history.replaceState({}, '', next);
     }
 
-    function renderEmptyState(title, body) {
-        $emptyState.html([
-            '<h2>', escapeHtml(title), '</h2>',
-            '<p>', escapeHtml(body), '</p>'
-        ].join('')).show();
+    function renderResultsState(summary, hint) {
+        $resultsSummary.text(summary);
+        $resultsHint.text(hint);
         $resultsList.empty();
     }
 
@@ -314,10 +312,9 @@
 
         if (!state.query) {
             state.openEpisodeCode = '';
-            $resultsSummary.text('Start with a search.');
-            renderEmptyState(
-                'Start with what your child needs right now.',
-                'Type a simple word or a full sentence. Tap any result to open a short summary and the episode details inline.'
+            renderResultsState(
+                'Start with a search.',
+                'Type a word or sentence and tap any result to open the summary inline.'
             );
             return;
         }
@@ -393,9 +390,8 @@
 
         if (!results.length) {
             state.openEpisodeCode = '';
-            $resultsSummary.text('No close matches.');
-            renderEmptyState(
-                'No close matches yet.',
+            renderResultsState(
+                'No close matches.',
                 'Try a shorter search like haircut, dentist, making a sandwich, or mad feelings.'
             );
             return;
@@ -405,8 +401,8 @@
             state.openEpisodeCode = '';
         }
 
-        $emptyState.hide();
         $resultsSummary.text(results.length === 1 ? '1 match' : results.length + ' matches');
+        $resultsHint.text('Tap any result to open the short summary and episode details inline.');
         $resultsList.html(results.map(function (result) {
             return resultMarkup(result, expandedTokens);
         }).join(''));
@@ -432,8 +428,7 @@
 
             runSearch();
         }).fail(function () {
-            $resultsSummary.text('Could not load search data.');
-            renderEmptyState('Load failed.', 'The search data files did not load.');
+            renderResultsState('Could not load search data.', 'The episode files did not load.');
         });
     }
 

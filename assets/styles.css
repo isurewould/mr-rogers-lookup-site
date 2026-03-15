@@ -135,7 +135,6 @@ input {
 }
 
 .search-panel,
-.empty-state,
 .result-card {
     position: relative;
     background: var(--card);
@@ -260,7 +259,6 @@ input {
 }
 
 .results-toolbar h1,
-.empty-state h2,
 .result-title,
 .detail-block h3 {
     margin: 0;
@@ -272,15 +270,11 @@ input {
     font-size: clamp(1.7rem, 4vw, 2.4rem);
 }
 
-.empty-state {
-    padding: 1.2rem 1.1rem;
-}
-
-.empty-state p {
-    margin: 0.7rem 0 0;
+.results-hint {
+    margin: 0.45rem 0 0;
     color: var(--muted);
-    line-height: 1.65;
-    max-width: 48rem;
+    line-height: 1.55;
+    max-width: 42rem;
 }
 
 .results-list {
@@ -439,7 +433,12 @@ mark {
     border: 1px solid rgba(255, 255, 255, 0.8);
     box-shadow: var(--shadow-lg);
     border-radius: var(--radius-xl);
-    padding: 1.35rem 1.2rem 1.45rem;
+    padding: 1.5rem 1.35rem 1.6rem;
+}
+
+.letter-body {
+    max-width: 44rem;
+    margin: 0 auto;
 }
 
 .letter-kicker {
@@ -561,9 +560,7 @@ mark {
         border-radius: 24px;
     }
 
-    .result-toggle,
-    .detail-panel,
-    .empty-state {
+    .detail-panel {
         padding-left: 0.9rem;
         padding-right: 0.9rem;
     }

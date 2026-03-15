@@ -23,33 +23,34 @@
 
     <main class="letter-shell">
         <article class="letter-card">
-            <p class="letter-kicker">A Note From Codex</p>
-            <h1>Hi.</h1>
-            <p class="letter-intro">Ian asked me to help build a very fast Mr. Rogers website for his family, especially something his wife could use one-handed while holding their two-year-old. The goal was simple: type something like “haircut,” “dentist,” or “deals with his emotions,” and get the right episodes quickly without clutter, pictures, or extra friction.</p>
+            <div class="letter-body">
+                <p class="letter-kicker">A Note From Codex</p>
+                <h1>Hi.</h1>
+                <p class="letter-intro">Ian asked me to help build a very fast Mr. Rogers website for his family, especially something his wife could use one-handed while holding their two-year-old. The goal was simple: type something like “haircut,” “dentist,” or “deals with his emotions,” and get the right episodes quickly without clutter, pictures, or extra friction.</p>
 
-            <div class="letter-sections">
-                <section class="letter-section">
-                    <h2>What he asked for</h2>
-                    <p>He wanted a lookup tool that felt lightweight and practical. Search mattered more than almost anything else. The site needed to work well on phones and desktops, stay easy to scan, and let someone move from a broad need to a useful episode in a few seconds.</p>
-                    <p>As the project evolved, the browser-only version became the clear winner. That let us keep the experience fast, simple, and easy to host, while still giving us strong search quality with prebuilt data.</p>
-                </section>
+                <div class="letter-sections">
+                    <section class="letter-section">
+                        <h2>What he asked for</h2>
+                        <p>He wanted a lookup tool that felt lightweight and practical. Search mattered more than almost anything else. The site needed to work well on phones and desktops, stay easy to scan, and let someone move from a broad need to a useful episode in a few seconds.</p>
+                        <p>As the project evolved, the browser-only version became the clear winner. That let us keep the experience fast, simple, and easy to host, while still giving us strong search quality with prebuilt data.</p>
+                    </section>
 
-                <section class="letter-section">
-                    <h2>Where the information came from</h2>
-                    <p>The episode data was compiled from a few sources and cross-checked against each other instead of trusting any single one blindly.</p>
-                    <ul>
-                        <li>Neighborhood Archive for episode-level summaries and structure.</li>
-                        <li>Wikipedia season pages for cross-checking season and episode listings.</li>
-                        <li>IMDb season episode lists for another independent listing source.</li>
-                        <li>TheTVDB for additional overview text and metadata.</li>
-                    </ul>
-                    <p>Those sources did not always agree perfectly. Part of the build was normalizing that mess and deciding which information was reliable enough to surface in search results.</p>
-                </section>
+                    <section class="letter-section">
+                        <h2>Where the information came from</h2>
+                        <p>The episode data was compiled from a few sources and cross-checked against each other instead of trusting any single one blindly.</p>
+                        <ul>
+                            <li>Neighborhood Archive for episode-level summaries and structure.</li>
+                            <li>Wikipedia season pages for cross-checking season and episode listings.</li>
+                            <li>IMDb season episode lists for another independent listing source.</li>
+                            <li>TheTVDB for additional overview text and metadata.</li>
+                        </ul>
+                        <p>Those sources did not always agree perfectly. Part of the build was normalizing that mess and deciding which information was reliable enough to surface in search results.</p>
+                    </section>
 
-                <section class="letter-section">
-                    <h2>How the app is structured</h2>
-                    <p>The live app is a small browser app with prebuilt files. The episode records and search index are generated ahead of time, then loaded directly in the page. Search runs in the browser, results open inline, and there is no separate episode-detail navigation to bounce you around.</p>
-                    <pre class="letter-diagram" aria-label="App structure diagram">source pages
+                    <section class="letter-section">
+                        <h2>How the app is structured</h2>
+                        <p>The live app is a small browser app with prebuilt files. The episode records and search index are generated ahead of time, then loaded directly in the page. Search runs in the browser, results open inline, and there is no separate episode-detail navigation to bounce you around.</p>
+                        <pre class="letter-diagram" aria-label="App structure diagram">source pages
     |
     v
 build scripts
@@ -64,13 +65,13 @@ build scripts
               +--> search in page
               +--> inline result cards
               +--> no separate detail page</pre>
-                    <p>That design is intentional. For a fixed-size catalog like Mister Rogers’ Neighborhood, precompiled search is good enough and materially simpler than building a more elaborate retrieval system.</p>
-                </section>
+                        <p>That design is intentional. For a fixed-size catalog like Mister Rogers’ Neighborhood, precompiled search is good enough and materially simpler than building a more elaborate retrieval system.</p>
+                    </section>
 
-                <section class="letter-section">
-                    <h2>How it was deployed</h2>
-                    <p>The source is kept private, and publishing happens through a separate static site deployment target. The public-facing site is only the compiled browser app plus the custom domain. That keeps the editing workspace private while still making the final site dead simple to serve.</p>
-                    <pre class="letter-diagram" aria-label="Deployment diagram">private source repo
+                    <section class="letter-section">
+                        <h2>How it was deployed</h2>
+                        <p>The source is kept private, and publishing happens through a separate static site deployment target. The public-facing site is only the compiled browser app plus the custom domain. That keeps the editing workspace private while still making the final site dead simple to serve.</p>
+                        <pre class="letter-diagram" aria-label="Deployment diagram">private source repo
         |
         v
 publish workflow
@@ -83,22 +84,23 @@ rogers.iansherwood.dev
         |
         v
 family opens site in browser</pre>
-                    <p>The domain setup also included custom-domain validation and secure HTTPS certificates, which took a little extra work because GitHub treats repo domain checks and account-level domain verification as separate steps.</p>
-                </section>
+                        <p>The domain setup also included custom-domain validation and secure HTTPS certificates, which took a little extra work because GitHub treats repo domain checks and account-level domain verification as separate steps.</p>
+                    </section>
 
-                <section class="letter-section">
-                    <h2>What was hard about it</h2>
-                    <p>The main problem was not the interface. It was trust. Search can look good on the surface while still being wrong in subtle ways. We found examples where a result looked relevant because of tags or related metadata, even though the actual description text did not support that match. That meant tightening the searchable text, improving summaries, and rechecking queries against the source pages.</p>
-                    <p>We also had to work through source disagreements, false positives, Pages deployment quirks, custom-domain DNS, and GitHub’s separate verified-domain flow before the live site was really finished.</p>
-                </section>
+                    <section class="letter-section">
+                        <h2>What was hard about it</h2>
+                        <p>The main problem was not the interface. It was trust. Search can look good on the surface while still being wrong in subtle ways. We found examples where a result looked relevant because of tags or related metadata, even though the actual description text did not support that match. That meant tightening the searchable text, improving summaries, and rechecking queries against the source pages.</p>
+                        <p>We also had to work through source disagreements, false positives, Pages deployment quirks, custom-domain DNS, and GitHub’s separate verified-domain flow before the live site was really finished.</p>
+                    </section>
 
-                <section class="letter-section">
-                    <h2>How long it took</h2>
-                    <p>In practical terms, this took us about one long focused working session. The bulk of the time went into collecting and cleaning the data, iterating on search quality, simplifying the interface, and then finishing the deployment and domain work cleanly instead of leaving it half-done.</p>
-                </section>
+                    <section class="letter-section">
+                        <h2>How long it took</h2>
+                        <p>In practical terms, this took us about one long focused working session. The bulk of the time went into collecting and cleaning the data, iterating on search quality, simplifying the interface, and then finishing the deployment and domain work cleanly instead of leaving it half-done.</p>
+                    </section>
+                </div>
+
+                <p class="letter-close">Codex wrote this note after helping Ian build, test, refine, and ship the app.</p>
             </div>
-
-            <p class="letter-close">Codex wrote this note after helping Ian build, test, refine, and ship the app.</p>
         </article>
     </main>
 </body>
