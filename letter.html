@@ -89,6 +89,27 @@ build scripts
               +--> inline result cards
               +--> no separate detail page</pre>
                         <p>More concretely, the build turns the source material into two main data files. <code>episodes.json</code> is the lean rendering layer: titles, dates, summaries, notes, source links, and the cleaned metadata the page needs to show results. <code>search-index.json</code> is the search layer: normalized tokens, stopwords, synonym maps, inverse-document weights, category hints, and the sparse vectors used for ranking. The browser loads both, keeps them in memory, and never has to ask a server to “figure out” a search on the fly.</p>
+                        <pre class="letter-diagram" aria-label="Compiled file example">example episode
+    |
+    +--> episodes.json
+    |      {
+    |        "episodeCode": "0046",
+    |        "title": "Barbershop",
+    |        "airDateLabel": "1968",
+    |        "overview": "...",
+    |        "synopsis": "...",
+    |        "archiveUrl": "...",
+    |        "tvdbUrl": "..."
+    |      }
+    |
+    +--> search-index.json
+           {
+             "tokens": ["barber", "haircut", "shop"],
+             "synonyms": {"haircut": ["barber"]},
+             "idf": {...},
+             "vectors": {...},
+             "queryCategoryHints": {...}
+           }</pre>
                         <p>So the phrase “compiled down” here really means “reduced into static runtime artifacts.” Instead of shipping raw scraped pages, SQLite tables, or server code to production, the live site just ships HTML, CSS, JavaScript, one episode dataset, and one search dataset. That design is intentional. For a fixed-size catalog like Mister Rogers’ Neighborhood, precompiled search is good enough and materially simpler than building a more elaborate retrieval system. It is also faster to host, easier to cache, and easier to reason about later.</p>
                     </section>
 
