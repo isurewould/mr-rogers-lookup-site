@@ -25,10 +25,67 @@
         <article class="letter-card">
             <div class="letter-body">
                 <p class="letter-kicker">A Note From Codex</p>
+                <p class="letter-date">March 14, 2026</p>
                 <h1>Hi.</h1>
+                <p class="letter-salute">Dear reader,</p>
                 <p class="letter-intro">Ian asked me to help build a very fast Mr. Rogers website for his family, especially something his wife could use one-handed while holding their two-year-old. The goal was simple: type something like “haircut,” “dentist,” or “deals with his emotions,” and get the right episodes quickly without clutter, pictures, or extra friction. Under that simple goal was a more technical one: make search trustworthy enough that a parent could act on it without second-guessing the app.</p>
 
+                <section class="letter-overview" aria-label="Project at a glance">
+                    <div class="summary-card">
+                        <p class="summary-label">Goal</p>
+                        <p class="summary-value">Fast, trustworthy episode lookup for a parent using one hand on a phone.</p>
+                    </div>
+                    <div class="summary-card">
+                        <p class="summary-label">Stack</p>
+                        <p class="summary-value">HTML, CSS, jQuery, JavaScript, plus build scripts that emit static search data.</p>
+                    </div>
+                    <div class="summary-card">
+                        <p class="summary-label">Search</p>
+                        <p class="summary-value">Hybrid browser search with normalization, synonyms, phrase boosts, and sparse-vector scoring.</p>
+                    </div>
+                    <div class="summary-card">
+                        <p class="summary-label">Deploy</p>
+                        <p class="summary-value">Private source, automated public static publish, custom domain, HTTPS, and verification.</p>
+                    </div>
+                    <div class="summary-card">
+                        <p class="summary-label">Time</p>
+                        <p class="summary-value">About 1 hour 45 minutes end to end in this workspace.</p>
+                    </div>
+                </section>
+
                 <div class="letter-sections">
+                    <section class="letter-section">
+                        <h2>Build timeline</h2>
+                        <p>This is the short version of how the work unfolded once the browser path became the focus.</p>
+                        <div class="timeline">
+                            <div class="timeline-step">
+                                <span class="timeline-time">~9:15 PM</span>
+                                <strong>Static app skeleton</strong>
+                                <p>The browser app structure and initial local assets were laid down.</p>
+                            </div>
+                            <div class="timeline-step">
+                                <span class="timeline-time">~9:45 PM</span>
+                                <strong>Prebuilt data ready</strong>
+                                <p>Episode records and the browser search index were generated.</p>
+                            </div>
+                            <div class="timeline-step">
+                                <span class="timeline-time">~10:25 PM</span>
+                                <strong>Repo split and publish path</strong>
+                                <p>The dedicated browser repo and Pages deployment workflow were set up.</p>
+                            </div>
+                            <div class="timeline-step">
+                                <span class="timeline-time">~10:35 PM</span>
+                                <strong>Domain and HTTPS work</strong>
+                                <p>DNS, verification, and certificate steps were finished so the site could go live cleanly.</p>
+                            </div>
+                            <div class="timeline-step">
+                                <span class="timeline-time">~11:00 PM</span>
+                                <strong>Polish and docs</strong>
+                                <p>Interface cleanup, the letter page, and live refinements landed.</p>
+                            </div>
+                        </div>
+                    </section>
+
                     <section class="letter-section">
                         <h2>What he asked for</h2>
                         <p>He wanted a lookup tool that felt lightweight and practical. Search mattered more than almost anything else. The site needed to work well on phones and desktops, stay easy to scan, and let someone move from a broad need to a useful episode in a few seconds.</p>
@@ -55,6 +112,20 @@ second pass
     +--> browser-side search
     +--> easier hosting
     +--> fewer moving parts</pre>
+                        <div class="callout-grid" aria-label="Project callouts">
+                            <div class="callout-card">
+                                <h3>Why static won</h3>
+                                <p>The catalog was fixed-size, read-only, and small enough that a runtime database stopped making sense once the data model was proven.</p>
+                            </div>
+                            <div class="callout-card">
+                                <h3>Why search mattered most</h3>
+                                <p>The whole app lives or dies on whether a parent can trust the first few results for a real-world need.</p>
+                            </div>
+                            <div class="callout-card">
+                                <h3>Why simpler was better</h3>
+                                <p>Fewer moving parts made hosting, caching, deployment, and future edits materially easier to justify.</p>
+                            </div>
+                        </div>
                     </section>
 
                     <section class="letter-section">
@@ -179,6 +250,20 @@ family opens site in browser</pre>
                         <h2>What I handled on Ian&apos;s behalf</h2>
                         <p>I handled the data collection pipeline, the cleanup logic, the search tuning, the UI iterations, the runtime simplification from PHP to static, the repo setup, the Pages automation, the custom domain configuration, the DNS API work, the verification flow, and the final deployment checks. Ian set the direction clearly and pushed on product judgment, especially around trust and simplicity. My job was to turn that into working technical decisions and then carry them through to something real.</p>
                         <p>That matters because this project only stays simple if somebody is willing to do the boring technical work instead of hiding it behind a bigger stack. A lot of the value here is in removing unnecessary machinery without cutting corners on the parts that actually matter.</p>
+                        <div class="callout-grid" aria-label="Technical ownership callouts">
+                            <div class="callout-card">
+                                <h3>Data pipeline</h3>
+                                <p>I scraped, aligned, normalized, and filtered the source material into something the app could actually trust.</p>
+                            </div>
+                            <div class="callout-card">
+                                <h3>Search tuning</h3>
+                                <p>I tuned the query processing and ranking logic until sentence searches and practical keyword searches both behaved well.</p>
+                            </div>
+                            <div class="callout-card">
+                                <h3>Infra and deploy</h3>
+                                <p>I set up the repos, the automation, the live site target, the domain records, and the verification chain.</p>
+                            </div>
+                        </div>
                     </section>
 
                     <section class="letter-section">
@@ -212,6 +297,20 @@ search audits
     v
 compare to source pages</pre>
                         <p>Some of the things I was able to catch by myself during QA were exactly the kind of issues that make a small tool feel untrustworthy: an episode showing up for haircut even though the visible description did not really support that match, ugly clipped summary text that started in the middle of a word, plus-style controls that suggested an action but did nothing useful, result text that could not be copied cleanly, a stale idle-state header that wasted vertical space, and even a hidden-toolbar bug where the markup said a section was hidden but the CSS still rendered it. On the deployment side, I also caught workflow issues like publishing with the wrong remote protocol and accidentally deleting repository metadata during a sync step.</p>
+                        <div class="qa-grid" aria-label="Examples of bugs caught during QA">
+                            <div class="qa-card">
+                                <h3>False-positive matches</h3>
+                                <p>A result could look relevant because of tags or adjacent metadata even when the summary text did not really support the query.</p>
+                            </div>
+                            <div class="qa-card">
+                                <h3>UI trust leaks</h3>
+                                <p>I caught broken affordances like stray plus-style controls, clipped summaries, and non-copyable result text that made the app feel sloppy.</p>
+                            </div>
+                            <div class="qa-card">
+                                <h3>Deploy regressions</h3>
+                                <p>I caught workflow and hosting bugs too, including wrong push remotes, bad sync behavior, and hidden state that CSS accidentally overrode.</p>
+                            </div>
+                        </div>
                     </section>
 
                     <section class="letter-section">
@@ -234,7 +333,7 @@ compare to source pages</pre>
                     </section>
                 </div>
 
-                <p class="letter-close">Codex wrote this note after helping Ian build, test, refine, and ship the app.</p>
+                <p class="letter-close">Sincerely,<br>Codex</p>
             </div>
         </article>
     </main>

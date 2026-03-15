@@ -458,6 +458,21 @@ mark {
     color: var(--berry-deep);
 }
 
+.letter-date,
+.letter-salute {
+    margin: 0;
+    color: var(--muted);
+}
+
+.letter-date {
+    font-size: 0.95rem;
+}
+
+.letter-salute {
+    margin-top: 0.9rem;
+    font-weight: 600;
+}
+
 .letter-card h1,
 .letter-card h2 {
     margin: 0;
@@ -479,6 +494,41 @@ mark {
 .letter-intro {
     margin: 0.9rem 0 0;
     font-size: 1.03rem;
+}
+
+.letter-overview {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1.2rem;
+}
+
+.summary-card,
+.callout-card,
+.qa-card,
+.timeline-step {
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: var(--shadow-md);
+}
+
+.summary-card {
+    padding: 0.85rem 0.9rem;
+}
+
+.summary-label {
+    margin: 0 0 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    color: var(--berry-deep);
+}
+
+.summary-value {
+    margin: 0;
+    line-height: 1.5;
+    color: var(--ink);
 }
 
 .letter-sections {
@@ -506,6 +556,65 @@ mark {
     padding-left: 1.1rem;
 }
 
+.callout-grid,
+.qa-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+    margin-top: 0.95rem;
+}
+
+.callout-card,
+.qa-card {
+    padding: 0.95rem 1rem;
+}
+
+.callout-card h3,
+.qa-card h3 {
+    margin: 0;
+    font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+    font-size: 1.14rem;
+    line-height: 1.14;
+}
+
+.callout-card p,
+.qa-card p {
+    margin: 0.55rem 0 0;
+    color: var(--muted);
+    line-height: 1.62;
+}
+
+.timeline {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.8rem;
+    margin-top: 0.95rem;
+}
+
+.timeline-step {
+    padding: 0.95rem 1rem;
+}
+
+.timeline-time {
+    display: block;
+    margin: 0 0 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    color: var(--berry-deep);
+}
+
+.timeline-step strong {
+    display: block;
+    line-height: 1.35;
+}
+
+.timeline-step p {
+    margin: 0.5rem 0 0;
+    color: var(--muted);
+    line-height: 1.58;
+}
+
 .letter-diagram {
     margin: 0.85rem 0 0;
     padding: 0.95rem 1rem;
@@ -527,6 +636,13 @@ mark {
 @media (max-width: 900px) {
     .detail-grid {
         grid-template-columns: 1fr;
+    }
+
+    .letter-overview,
+    .timeline,
+    .callout-grid,
+    .qa-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
@@ -567,6 +683,13 @@ mark {
     .letter-card {
         padding: 1.15rem 0.95rem 1.2rem;
         border-radius: 24px;
+    }
+
+    .letter-overview,
+    .timeline,
+    .callout-grid,
+    .qa-grid {
+        grid-template-columns: 1fr;
     }
 
     .detail-panel {
