@@ -93,6 +93,10 @@ input {
     padding: 0.95rem 0 0.9rem;
 }
 
+.topbar-copy {
+    min-width: 0;
+}
+
 .brand-mark {
     margin: 0;
     font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
@@ -105,6 +109,25 @@ input {
     margin: 0;
     color: var(--muted);
     font-size: 0.98rem;
+}
+
+.topbar-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.5rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(32, 27, 23, 0.08);
+    color: var(--berry-deep);
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: var(--shadow-md);
+}
+
+.topbar-link:hover {
+    transform: translateY(-1px);
 }
 
 .app-shell {
@@ -404,6 +427,95 @@ mark {
     box-shadow: var(--shadow-md);
 }
 
+.letter-shell {
+    width: min(860px, calc(100% - 1.1rem));
+    margin: 0 auto;
+    padding: 1rem 0 2.4rem;
+}
+
+.letter-card {
+    position: relative;
+    background: var(--card-strong);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-xl);
+    padding: 1.35rem 1.2rem 1.45rem;
+}
+
+.letter-kicker {
+    margin: 0 0 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.74rem;
+    color: var(--berry-deep);
+}
+
+.letter-card h1,
+.letter-card h2 {
+    margin: 0;
+    font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+    line-height: 1.08;
+}
+
+.letter-card h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.letter-intro,
+.letter-card p,
+.letter-card li {
+    color: var(--ink);
+    line-height: 1.72;
+}
+
+.letter-intro {
+    margin: 0.9rem 0 0;
+    font-size: 1.03rem;
+}
+
+.letter-sections {
+    display: grid;
+    gap: 1.1rem;
+    margin-top: 1.4rem;
+}
+
+.letter-section {
+    padding-top: 1.05rem;
+    border-top: 1px solid var(--line);
+}
+
+.letter-section h2 {
+    font-size: 1.45rem;
+    margin-bottom: 0.55rem;
+}
+
+.letter-section p {
+    margin: 0.6rem 0 0;
+}
+
+.letter-section ul {
+    margin: 0.7rem 0 0;
+    padding-left: 1.1rem;
+}
+
+.letter-diagram {
+    margin: 0.85rem 0 0;
+    padding: 0.95rem 1rem;
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line);
+    background: rgba(32, 27, 23, 0.04);
+    color: var(--ink);
+    font: 0.92rem/1.55 "SFMono-Regular", "Cascadia Mono", "Liberation Mono", monospace;
+}
+
+.letter-close {
+    margin-top: 1.35rem;
+    padding-top: 1.05rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+}
+
 @media (max-width: 900px) {
     .detail-grid {
         grid-template-columns: 1fr;
@@ -412,7 +524,8 @@ mark {
 
 @media (max-width: 700px) {
     .topbar-inner,
-    .app-shell {
+    .app-shell,
+    .letter-shell {
         width: min(100%, calc(100% - 0.85rem));
     }
 
@@ -436,6 +549,16 @@ mark {
 
     .results-toolbar {
         padding-inline: 0.05rem;
+    }
+
+    .topbar-link {
+        min-height: 2.3rem;
+        padding-inline: 0.72rem;
+    }
+
+    .letter-card {
+        padding: 1.15rem 0.95rem 1.2rem;
+        border-radius: 24px;
     }
 
     .result-toggle,
