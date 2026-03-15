@@ -10,6 +10,7 @@
 
     var $searchInput = $('#searchInput');
     var $resultsList = $('#resultsList');
+    var $resultsToolbar = $('#resultsToolbar');
     var $resultsSummary = $('#resultsSummary');
     var $resultsHint = $('#resultsHint');
 
@@ -235,6 +236,7 @@
     }
 
     function renderResultsState(summary, hint) {
+        $resultsToolbar.prop('hidden', false);
         $resultsSummary.text(summary);
         $resultsHint.text(hint);
         $resultsList.empty();
@@ -312,10 +314,8 @@
 
         if (!state.query) {
             state.openEpisodeCode = '';
-            renderResultsState(
-                'Start with a search.',
-                'Type a word or sentence and tap any result to open the summary inline.'
-            );
+            $resultsToolbar.prop('hidden', true);
+            $resultsList.empty();
             return;
         }
 
@@ -403,6 +403,7 @@
 
         $resultsSummary.text(results.length === 1 ? '1 match' : results.length + ' matches');
         $resultsHint.text('Tap any result to open the short summary and episode details inline.');
+        $resultsToolbar.prop('hidden', false);
         $resultsList.html(results.map(function (result) {
             return resultMarkup(result, expandedTokens);
         }).join(''));

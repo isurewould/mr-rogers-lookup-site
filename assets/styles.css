@@ -78,7 +78,11 @@ input {
     border-bottom: 1px solid rgba(32, 27, 23, 0.06);
 }
 
-.topbar-inner,
+.topbar-inner {
+    width: min(1120px, calc(100% - 1.1rem));
+    margin: 0 auto;
+}
+
 .app-shell {
     width: min(980px, calc(100% - 1.1rem));
     margin: 0 auto;
@@ -115,6 +119,7 @@ input {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    margin-left: auto;
     min-height: 2.5rem;
     padding: 0.35rem 0.8rem;
     border-radius: 999px;
