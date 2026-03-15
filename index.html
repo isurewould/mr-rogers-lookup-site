@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mr. Rogers Lookup</title>
+    <meta name="description" content="Search Mister Rogers' Neighborhood episodes by keyword or sentence.">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <div class="page-glow" aria-hidden="true"></div>
+
+    <header class="topbar">
+        <div class="topbar-inner">
+            <p class="brand-mark">Mr. Rogers Lookup</p>
+            <p class="brand-copy">Search by word or sentence to find the right episode fast.</p>
+        </div>
+    </header>
+
+    <main class="app-shell">
+        <section class="search-panel">
+            <form class="search-bar" id="searchForm" autocomplete="off">
+                <label class="search-field" for="searchInput">
+                    <span class="visually-hidden">Search episodes</span>
+                    <input id="searchInput" name="q" type="search" placeholder="Try: haircut, going to the dentist, deals with his emotions" inputmode="search">
+                </label>
+                <button class="search-button" type="submit">Search</button>
+                <button class="ghost-button" id="clearQueryButton" type="button">Clear</button>
+            </form>
+
+            <div class="starter-row" aria-label="Sample searches">
+                <button class="starter-pill" type="button" data-sample-query="haircut">Haircut</button>
+                <button class="starter-pill" type="button" data-sample-query="dentist">Dentist</button>
+                <button class="starter-pill" type="button" data-sample-query="making a sandwich">Making a sandwich</button>
+                <button class="starter-pill" type="button" data-sample-query="deals with his emotions">Big feelings</button>
+            </div>
+        </section>
+
+        <section class="results-shell">
+            <div class="results-toolbar">
+                <div>
+                    <p class="results-label">Results</p>
+                    <h1 id="resultsSummary">Loading episodes...</h1>
+                </div>
+            </div>
+
+            <section class="empty-state" id="emptyState">
+                <h2>Start with what your child needs right now.</h2>
+                <p>Type a simple word or a full sentence. Tap any result to open a short summary and the episode details inline.</p>
+            </section>
+
+            <div class="results-list" id="resultsList" aria-live="polite"></div>
+        </section>
+    </main>
+
+    <script src="assets/vendor/jquery-3.7.1.min.js"></script>
+    <script src="assets/app.js"></script>
+</body>
+</html>
